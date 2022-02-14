@@ -3,11 +3,13 @@ from tgtg import TgtgClient
 from twilio.rest import Client 
 import sched, time
 from datetime import datetime
+from keep_alive import keep_alive
 
 
 RESET_LIST_HOUR = 3
 RESET_LIST_MINUTE = 1
 cycle_seconds = 60
+
 
 def send_sms(place):
 	account_sid = os.environ['twilio_account_sid']  
@@ -47,7 +49,7 @@ def do_something(sc):
 
 	s.enter(cycle_seconds, 1, do_something, (sc,))
 
-
+keep_alive()
 s = sched.scheduler(time.time, time.sleep)
 past_items = []
 s.enter(5, 1, do_something, (s,))
